@@ -1,0 +1,131 @@
+﻿@model LanguageCourses.ViewModels.Models.ListinerViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Listeners</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="Index" asp-route-page="@Model.PageViewModel.PageIndex">
+    <div class="form-action no-color">
+        <label>Listener Surname: </label>
+        <input name="Name" value="@Model.ListenersFilterViewModel.Name" />
+        <input type="submit" value="Filter" class="btn btn-success" />
+        <br />
+
+        <label asp-for="ListenersFilterViewModel.Age"></label>
+        <input name="Age" value="@Model.ListenersFilterViewModel.Age" />
+
+        <label asp-for="ListenersFilterViewModel.FromDate"></label>
+        <input name="FromDate" type ="date" value="@Model.ListenersFilterViewModel.FromDate" />
+
+        <label asp-for="ListenersFilterViewModel.ToDate"></label>
+        <input name="ToDate" type ="date" value="@Model.ListenersFilterViewModel.ToDate" />
+
+        <input type="submit" value="Filter" class="btn btn-success" />
+        <a asp-action="Index">Back to Full List</a>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.ListinersName" asp-route-page="@Model.PageViewModel.PageIndex">
+                    @Html.DisplayNameFor(model => model.Listener.Name)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.ListinersSurname" asp-route-page="@Model.PageViewModel.PageIndex">
+                    @Html.DisplayNameFor(model => model.Listener.Surname)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.ListinersMiddleName" asp-route-page="@Model.PageViewModel.PageIndex">
+                    @Html.DisplayNameFor(model => model.Listener.MiddleName)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.ListinersDateOfBirth" asp-route-page="@Model.PageViewModel.PageIndex">
+                    @Html.DisplayNameFor(model => model.Listener.DateOfBirth)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.ListinersAddress" asp-route-page="@Model.PageViewModel.PageIndex">
+                    @Html.DisplayNameFor(model => model.Listener.Address)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.ListinersPhone" asp-route-page="@Model.PageViewModel.PageIndex">
+                    @Html.DisplayNameFor(model => model.Listener.Phone)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.ListinersPassportData" asp-route-page="@Model.PageViewModel.PageIndex">
+                    @Html.DisplayNameFor(model => model.Listener.PassportData)
+                </a>
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Listeners)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MiddleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PassportData)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ListenerId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ListenerId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ListenerId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.PageViewModel.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.PageViewModel.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortState="@Model.SortViewModel.CurrentState"
+   asp-route-page="@(Model.PageViewModel.PageIndex - 1)"
+   asp-route-name="@Model.ListenersFilterViewModel.Name"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+
+<a asp-action="Index"
+   asp-route-sortState="@Model.SortViewModel.CurrentState"
+   asp-route-page="@(Model.PageViewModel.PageIndex+1)"
+   asp-route-name="@Model.ListenersFilterViewModel.Name"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

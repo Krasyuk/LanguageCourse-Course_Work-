@@ -1,0 +1,109 @@
+﻿@model LanguageCourses.ViewModels.Models.PaymentViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Payments</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="Index" asp-route-page="@Model.PageViewModel.PageIndex">
+    <div class="form-action no-color">
+        <label>Name of courses: </label>
+        <input name="Name" value="@Model.PaymentsFilterViewModel.Name" />
+
+        <label asp-for="PaymentsFilterViewModel.Date"></label>
+        <input name="Date" type ="date" value="@Model.PaymentsFilterViewModel.Date" />
+
+        <label asp-for="PaymentsFilterViewModel.Sum"></label>
+        <input name="Sum" value="@Model.PaymentsFilterViewModel.Sum" />
+
+        <input type="submit" value="Filter" class="btn btn-success" />
+        <a asp-action="Index">Back to Full List</a>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.PaymentsNameOfCourses" asp-route-page="@Model.PageViewModel.PageIndex">
+                    @Html.DisplayNameFor(model => model.Payment.NameOfCourses)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.PaymentsDate" asp-route-page="@Model.PageViewModel.PageIndex">
+                    @Html.DisplayNameFor(model => model.Payment.Date)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.PaymentsSum" asp-route-page="@Model.PageViewModel.PageIndex">
+                    @Html.DisplayNameFor(model => model.Payment.Sum)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.PaymentsCourseId" asp-route-page="@Model.PageViewModel.PageIndex">
+                    @Html.DisplayNameFor(model => model.Payment.CourseId)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortState="@Model.SortViewModel.PaymentsListenerId" asp-route-page="@Model.PageViewModel.PageIndex">
+                    @Html.DisplayNameFor(model => model.Payment.Listener.Surname)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Payments)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameOfCourses)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Listener.Surname)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PaymentId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.PaymentId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PaymentId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.PageViewModel.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.PageViewModel.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortState="@Model.SortViewModel.CurrentState"
+   asp-route-page="@(Model.PageViewModel.PageIndex - 1)"
+   asp-route-name="@Model.PaymentsFilterViewModel.Name"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+
+<a asp-action="Index"
+   asp-route-sortState="@Model.SortViewModel.CurrentState"
+   asp-route-page="@(Model.PageViewModel.PageIndex+1)"
+   asp-route-name="@Model.PaymentsFilterViewModel.Name"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
